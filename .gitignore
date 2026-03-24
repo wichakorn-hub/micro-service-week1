@@ -126,3 +126,9 @@ coverage/
 logs/
 tmp/
 .cache/
+
+# =========================
+# C# / .NET
+# =========================
+csharp/bin/
+csharp/obj/

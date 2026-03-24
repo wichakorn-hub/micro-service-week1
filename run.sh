@@ -19,9 +19,11 @@ Services:
   go           Run Go (go run)
   python       Run Python (python3)
   javascript   Run JavaScript (node, no deps)
+  bash         Run Bash server (nc)
+  csharp       Run C# .NET Core (dotnet run)
 
 Default ports (override by passing a port for that service):
-  cpp=8010 rust=8011 node=8012 php=8013 dart=8014 java=8015 go=8016 python=8017 javascript=8018
+  cpp=8010 rust=8011 node=8012 php=8013 dart=8014 java=8015 go=8016 python=8017 javascript=8018 bash=8019 csharp=8020
 
 Examples:
   ./run.sh cpp
@@ -106,6 +108,20 @@ run_javascript() {
   (cd "$ROOT_DIR/javascript" && PORT="$port" node server.js)
 }
 
+run_bash() {
+  need_cmd nc
+  local port="${1:-8019}"
+  echo "Starting Bash server (http://127.0.0.1:$port)"
+  (cd "$ROOT_DIR/bash" && PORT="$port" ./server.sh)
+}
+
+run_csharp() {
+  need_cmd dotnet
+  local port="${1:-8020}"
+  echo "Starting C# server (http://127.0.0.1:$port)"
+  (cd "$ROOT_DIR/csharp" && PORT="$port" dotnet run)
+}
+
 run_all() {
   echo "Starting all services in background. Stop with: kill 0"
   run_cpp 8010 &
@@ -117,6 +133,8 @@ run_all() {
   run_go 8016 &
   run_python 8017 &
   run_javascript 8018 &
+  run_bash 8019 &
+  run_csharp 8020 &
   wait
 }
 
@@ -136,6 +154,8 @@ main() {
     go) shift; run_go "${1:-8016}" ;;
     python) shift; run_python "${1:-8017}" ;;
     javascript) shift; run_javascript "${1:-8018}" ;;
+    bash) shift; run_bash "${1:-8019}" ;;
+    csharp) shift; run_csharp "${1:-8020}" ;;
     all) run_all ;;
     -h|--help|help) usage ;;
     *)
