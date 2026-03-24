@@ -71,7 +71,7 @@ pip-wheel-metadata/
 # =========================
 # Go
 # =========================
-bin/
+go/bin/
 pkg/
 *.exe
 *.test
