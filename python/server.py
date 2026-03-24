@@ -49,9 +49,26 @@ class Handler(BaseHTTPRequestHandler):
         )
         body = json.dumps(
             {
-                "status": "success",
-                "message": "Hello Python",
-                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                "timestamp": timestamp,
+                "level": "info",
+                "service": "python-api",
+                "message": f"{self.command} {self.path} success",
+                "request": {
+                    "method": self.command,
+                    "url": self.path,
+                    "headers": {
+                        "user-agent": self.headers.get("User-Agent", "")
+                    },
+                    "ip": self.client_address[0]
+                },
+                "response": {
+                    "status_code": 200,
+                    "response_time_ms": 12
+                },
+                "meta": {
+                    "request_id": trace_id,
+                    "user_id": 42
+                }
             }
         ).encode("utf-8")
 

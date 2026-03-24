@@ -14,9 +14,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SERVER['REQUEST_URI'] === '/') {
     ]));
 
     $response = [
-        'status' => 'success',
-        'message' => 'Hello PHP',
         'timestamp' => $timestamp,
+        'level' => 'info',
+        'service' => 'php-api',
+        'message' => $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'] . ' success',
+        'request' => [
+            'method' => $_SERVER['REQUEST_METHOD'],
+            'url' => $_SERVER['REQUEST_URI'],
+            'headers' => [
+                'user-agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+            ],
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'
+        ],
+        'response' => [
+            'status_code' => 200,
+            'response_time_ms' => 12,
+        ],
+        'meta' => [
+            'request_id' => $traceId,
+            'user_id' => 42,
+        ]
     ];
 
     header('Content-Type: application/json');

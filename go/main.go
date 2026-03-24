@@ -11,10 +11,31 @@ import (
 	"time"
 )
 
-type ApiResponse struct {
-	Status    string `json:"status"`
-	Message   string `json:"message"`
-	Timestamp string `json:"timestamp"`
+type RequestInfo struct {
+	Method  string            `json:"method"`
+	URL     string            `json:"url"`
+	Headers map[string]string `json:"headers"`
+	IP      string            `json:"ip"`
+}
+
+type ResponseInfo struct {
+	StatusCode     int `json:"status_code"`
+	ResponseTimeMs int `json:"response_time_ms"`
+}
+
+type MetaInfo struct {
+	RequestID string `json:"request_id"`
+	UserID    int    `json:"user_id"`
+}
+
+type StructuredResponse struct {
+	Timestamp string       `json:"timestamp"`
+	Level     string       `json:"level"`
+	Service   string       `json:"service"`
+	Message   string       `json:"message"`
+	Request   RequestInfo  `json:"request"`
+	Response  ResponseInfo `json:"response"`
+	Meta      MetaInfo     `json:"meta"`
 }
 
 type LogLine struct {
@@ -75,10 +96,27 @@ func main() {
 			Timestamp: timestamp,
 		})
 		w.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(w).Encode(ApiResponse{
-			Status:    "success",
-			Message:   "Hello Go",
+		_ = json.NewEncoder(w).Encode(StructuredResponse{
 			Timestamp: timestamp,
+			Level:     "info",
+			Service:   "go-api",
+			Message:   "GET / success",
+			Request: RequestInfo{
+				Method: r.Method,
+				URL:    r.URL.Path,
+				Headers: map[string]string{
+					"user-agent": r.Header.Get("User-Agent"),
+				},
+				IP: r.RemoteAddr,
+			},
+			Response: ResponseInfo{
+				StatusCode:     200,
+				ResponseTimeMs: 12,
+			},
+			Meta: MetaInfo{
+				RequestID: tid,
+				UserID:    42,
+			},
 		})
 	})
 

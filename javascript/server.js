@@ -37,9 +37,26 @@ const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.end(
     JSON.stringify({
-      status: 'success',
-      message: 'Hello JavaScript',
       timestamp: new Date().toISOString(),
+      level: 'info',
+      service: 'javascript-api',
+      message: `${req.method} ${path} success`,
+      request: {
+        method: req.method,
+        url: path,
+        headers: {
+          'user-agent': req.headers['user-agent'] || '',
+        },
+        ip: req.socket.remoteAddress || '127.0.0.1',
+      },
+      response: {
+        status_code: 200,
+        response_time_ms: 12,
+      },
+      meta: {
+        request_id: traceId,
+        user_id: 42,
+      }
     }),
   );
 });

@@ -16,9 +16,26 @@ app.get('/', (req, res) => {
   }));
 
   const response = {
-    status: 'success',
-    message: 'Hello node',
-    timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      level: 'info',
+      service: 'node-api',
+      message: `${req.method} ${req.path} success`,
+      request: {
+        method: req.method,
+        url: req.path,
+        headers: {
+          'user-agent': req.get('user-agent') || '',
+        },
+        ip: req.ip || '127.0.0.1',
+      },
+      response: {
+        status_code: 200,
+        response_time_ms: 12,
+      },
+      meta: {
+        request_id: traceId,
+        user_id: 42,
+      }
   };
 
   res.json(response);
