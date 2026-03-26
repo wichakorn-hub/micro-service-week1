@@ -10,9 +10,7 @@ Usage:
   ./run.sh all
 
 Services:
-  cpp          Build + run C++ (CMake). Optional arg: port (default 8010)
   rust         Run rust-project (cargo)
-  node         Run node (npm install if needed)
   php          Run PHP built-in server
   dart         Run dart (dart run)
   java         Run Java (mvn spring-boot:run)
@@ -23,7 +21,7 @@ Services:
   csharp       Run C# .NET Core (dotnet run)
 
 Default ports (override by passing a port for that service):
-  cpp=8010 rust=8011 node=8012 php=8013 dart=8014 java=8015 go=8016 python=8017 javascript=8018 bash=8019 csharp=8020
+  rust=8011 php=8013 dart=8014 java=8015 go=8016 python=8017 javascript=8018 bash=8019 csharp=8020
 
 Examples:
   ./run.sh cpp
@@ -39,17 +37,6 @@ need_cmd() {
   }
 }
 
-run_cpp() {
-  need_cmd cmake
-  local port="${1:-8010}"
-  local dir="$ROOT_DIR/cpp"
-  local build_dir="$dir/build"
-  mkdir -p "$build_dir"
-  cmake -S "$dir" -B "$build_dir"
-  cmake --build "$build_dir"
-  echo "Starting C++ server (http://127.0.0.1:$port)"
-  PORT="$port" "$build_dir/hello_cpp"
-}
 
 run_rust() {
   need_cmd cargo
@@ -58,13 +45,6 @@ run_rust() {
   (cd "$ROOT_DIR/rust-project" && PORT="$port" cargo run)
 }
 
-run_node() {
-  need_cmd node
-  need_cmd npm
-  local port="${1:-8012}"
-  echo "Starting Node server (http://127.0.0.1:$port)"
-  (cd "$ROOT_DIR/node" && npm install && PORT="$port" node index.js)
-}
 
 run_php() {
   need_cmd php
@@ -124,9 +104,7 @@ run_csharp() {
 
 run_all() {
   echo "Starting all services in background. Stop with: kill 0"
-  run_cpp 8010 &
   run_rust 8011 &
-  run_node 8012 &
   run_php 8013 &
   run_dart 8014 &
   run_java 8015 &
@@ -145,9 +123,7 @@ main() {
   fi
 
   case "$1" in
-    cpp) shift; run_cpp "${1:-8010}" ;;
     rust) shift; run_rust "${1:-8011}" ;;
-    node) shift; run_node "${1:-8012}" ;;
     php) shift; run_php "${1:-8013}" ;;
     dart) shift; run_dart "${1:-8014}" ;;
     java) shift; run_java "${1:-8015}" ;;
