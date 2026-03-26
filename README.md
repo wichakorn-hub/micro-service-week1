@@ -1,9 +1,7 @@
 HOMEWORK MICRO-SERVICE WEEK 1
 
 Services and default ports:
-- cpp (C++) : 8010
 - rust (Rust) : 8011
-- node (Node) : 8012
 - php (PHP) : 8013
 - dart (Dart) : 8014
 - java (Java) : 8015
