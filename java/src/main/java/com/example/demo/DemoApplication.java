@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
-        System.out.println("Starting server at http://127.0.0.1:8080");
+        String port = System.getenv("SERVER_PORT") != null ? System.getenv("SERVER_PORT") : System.getenv("PORT") != null ? System.getenv("PORT") : "8015";
+        System.out.println("Starting server at http://0.0.0.0:" + port);
     }
 }
 

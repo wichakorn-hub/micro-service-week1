@@ -84,7 +84,7 @@ class Handler(BaseHTTPRequestHandler):
 
 def main() -> None:
     port = _port()
-    server = HTTPServer(("127.0.0.1", port), Handler)
+    server = HTTPServer(("0.0.0.0", port), Handler)
     print(f"Starting server at http://127.0.0.1:{port}")
     server.serve_forever()
 

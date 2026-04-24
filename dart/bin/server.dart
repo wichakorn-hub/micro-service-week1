@@ -70,8 +70,8 @@ void main(List<String> args) async {
       })
       .addHandler(router);
 
-  final ip = InternetAddress.loopbackIPv4;
-  final port = int.tryParse(Platform.environment['PORT'] ?? '') ?? 8080;
+  final ip = InternetAddress.anyIPv4;
+  final port = int.tryParse(Platform.environment['PORT'] ?? '') ?? 8014;
 
   final server = await io.serve(handler, ip, port);
   print('Starting server at http://${server.address.host}:${server.port}');

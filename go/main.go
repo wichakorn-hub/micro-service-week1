@@ -120,7 +120,7 @@ func main() {
 		})
 	})
 
-	addr := fmt.Sprintf("127.0.0.1:%d", port)
+	addr := fmt.Sprintf("0.0.0.0:%d", port)
 	fmt.Printf("Starting server at http://%s\n", addr)
 	_ = http.ListenAndServe(addr, nil)
 }

@@ -7,7 +7,7 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8020";
-builder.WebHost.UseUrls($"http://127.0.0.1:{port}");
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 builder.Services.ConfigureHttpJsonOptions(options => {
     options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });
