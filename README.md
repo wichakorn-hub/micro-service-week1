@@ -122,4 +122,4 @@ php -S 127.0.0.1:8013 index.php
 
 ## Diagrams
 
-![JS Multistage Build Diagram](js_multistage_build_diagram.svg)
+![JS Multistage Build Diagram](js_multistage_build_diagram.png)
