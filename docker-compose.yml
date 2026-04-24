@@ -1,0 +1,70 @@
+services:
+  rust:
+    build: ./rust-project
+    container_name: rust-service
+    ports:
+      - "8011:8011"
+    environment:
+      - PORT=8011
+
+  go:
+    build: ./go
+    container_name: go-service
+    ports:
+      - "8016:8016"
+    environment:
+      - PORT=8016
+
+  python:
+    build: ./python
+    container_name: python-service
+    ports:
+      - "8017:8017"
+    environment:
+      - PORT=8017
+
+  javascript:
+    build: ./javascript
+    container_name: javascript-service
+    ports:
+      - "8018:8018"
+    environment:
+      - PORT=8018
+
+  bash:
+    build: ./bash
+    container_name: bash-service
+    ports:
+      - "8019:8019"
+    environment:
+      - PORT=8019
+
+  csharp:
+    build: ./csharp
+    container_name: csharp-service
+    ports:
+      - "8020:8020"
+    environment:
+      - PORT=8020
+
+  dart:
+    build: ./dart
+    container_name: dart-service
+    ports:
+      - "8014:8014"
+    environment:
+      - PORT=8014
+
+  php:
+    build: ./php
+    container_name: php-service
+    ports:
+      - "8013:8013"
+
+  java:
+    build: ./java
+    container_name: java-service
+    ports:
+      - "8015:8015"
+    environment:
+      - SERVER_PORT=8015

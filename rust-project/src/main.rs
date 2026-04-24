@@ -1,5 +1,4 @@
 use actix_web::{get, App, HttpRequest, HttpServer, HttpResponse, Responder};
-use serde::Serialize;
 use log::{info};
 use chrono::Utc;
 use std::env;
@@ -63,15 +62,44 @@ async fn main() -> std::io::Result<()> {
     let port: u16 = env::var("PORT")
         .ok()
         .and_then(|v| v.parse().ok())
-        .unwrap_or(8080);
+        .unwrap_or(7070);
 
-    info!("Starting server at http://127.0.0.1:{}", port);
+    info!("Starting server at http://0.0.0.0:{}", port);
 
     HttpServer::new(|| {
         App::new()
             .service(hello)
     })
-    .bind(("127.0.0.1", port))?
+    .bind(("0.0.0.0", port))?
     .run()
     .await
+}
+
+pub fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+// This is a really bad adding function, its purpose is to fail in this
+// example.
+#[allow(dead_code)]
+fn bad_add(a: i32, b: i32) -> i32 {
+    a - b
+}
+
+#[cfg(test)]
+mod tests {
+    // Note this useful idiom: importing names from outer (for mod tests) scope.
+    use super::*;
+
+    #[test]
+    fn test_add() {
+        assert_eq!(add(1, 2), 3);
+    }
+
+    // #[test]
+    // fn test_bad_add() {
+    //     // This assert would fire and test will fail.
+    //     // Please note, that private functions can be tested too!
+    //     assert_eq!(bad_add(1, 2), 3);
+    // }
 }
